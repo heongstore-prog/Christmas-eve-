@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HeongArena Payment Page</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    body {
+      background-color: #f4f6f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 16px;
+    }
+    .card {
+      position: relative;
+      background: #ffffff;
+      width: 100%;
+      max-width: 400px;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      text-align: center;
+    }
+    .top-right-badge {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #f1f5f9;
+      padding: 4px 8px;
+      border-radius: 20px;
+    }
+    .top-right-badge img {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .top-right-badge span {
+      font-size: 10px;
+      font-weight: 600;
+      color: #64748b;
+      white-space: nowrap;
+    }
+    .brand {
+      font-size: 14px;
+      font-weight: 700;
+      color: #6366f1;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      text-align: left;
+    }
+    h1 {
+      font-size: 22px;
+      color: #1e293b;
+      margin-bottom: 6px;
+    }
+    .amount {
+      font-size: 32px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 20px;
+    }
+    .qr-container {
+      background: #fafafa;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+    .qr-container img {
+      width: 100%;
+      max-width: 250px;
+      height: auto;
+      border-radius: 8px;
+    }
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .btn {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s;
+    }
+    .btn-primary {
+      background-color: #10b981;
+      color: #ffffff;
+    }
+    .btn-primary:hover {
+      background-color: #059669;
+    }
+    .btn-secondary {
+      background-color: #e2e8f0;
+      color: #334155;
+    }
+    .btn-secondary:hover {
+      background-color: #cbd5e1;
+    }
+    .notice-box {
+      margin-top: 20px;
+      padding: 14px;
+      background-color: #fffbe5;
+      border: 1px solid #fef08a;
+      border-radius: 10px;
+      text-align: left;
+      font-size: 13px;
+      color: #713f12;
+      line-height: 1.5;
+    }
+    .notice-box strong {
+      color: #451a03;
+    }
+    .notice-title {
+      font-weight: 800;
+      font-size: 14px;
+      margin-bottom: 6px;
+      display: block;
+      color: #854d0e;
+      text-align: center;
+    }
+    .footer-note {
+      margin-top: 16px;
+      font-size: 12px;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <!-- Top Right Logo & Attribution -->
+    <div class="top-right-badge">
+      <!-- Replace 'logo.png' with your actual logo image URL -->
+      <img src="logo.png" alt="Heong Arena Logo" />
+      <span>Powered by Heong Arena tools</span>
+    </div>
+
+    <div class="brand">HeongArena</div>
+    <h1>Payment for CHRISTMAS EVE TOURNAMENT</h1>
+    <div class="amount">₹1000</div>
+
+    <div class="qr-container">
+      <!-- Replace 'qr-code.png' with the actual path or URL of your uploaded QR image -->
+      <img id="qrImage" src="qr-code.png" alt="HeongArena Payment QR Code" />
+    </div>
+
+    <div class="btn-group">
+      <!-- Proceed to Pay triggers the standard UPI deep link -->
+      <a href="upi://pay?pa=9362580723@nyes&pn=MANCHU%20MANCHU&am=1000&cu=INR&tn=Payment%20for%20CHRISTMAS%20EVE%20TOURNAMENT" class="btn btn-primary">
+        Proceed to Pay
+      </a>
+
+      <!-- Download QR Button -->
+      <button onclick="downloadQR()" class="btn btn-secondary">
+        Download QR
+      </button>
+    </div>
+
+    <!-- Verification Notice Box -->
+    <div class="notice-box">
+      <span class="notice-title">Payment Verification Required</span>
+      <p style="margin-bottom: 8px;"><strong>After completing your payment, please return to Heong Arena and submit your UTR/Transaction ID along with the payment app used to make the payment.</strong></p>
+      <p style="margin-bottom: 8px;"><strong>This information is required to verify and confirm your payment.</strong></p>
+      <p><strong>If you have completed the payment but did not submit these details, please contact Customer Care for assistance.</strong></p>
+    </div>
+
+    <p class="footer-note">Tapping "Proceed to Pay" opens GPay, PhonePe, Paytm, or any installed UPI app automatically with ₹1000 prefilled.</p>
+  </div>
+
+  <script>
+    function downloadQR() {
+      const qrImg = document.getElementById('qrImage');
+      const link = document.createElement('a');
+      link.href = qrImg.src;
+      link.download = 'HeongArena_Payment_QR.png';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
+
+</body>
+</html>
