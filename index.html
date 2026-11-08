@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HeongArena Payment Page</title>
+  <title>CHRISTMAS EVE TOURNAMENT - Payment Page</title>
   <style>
     * {
       box-sizing: border-box;
@@ -116,32 +116,58 @@
     .btn-secondary:hover {
       background-color: #cbd5e1;
     }
-    .notice-box {
-      margin-top: 20px;
-      padding: 14px;
-      background-color: #fffbe5;
-      border: 1px solid #fef08a;
-      border-radius: 10px;
-      text-align: left;
-      font-size: 13px;
-      color: #713f12;
-      line-height: 1.5;
+
+    /* Modal Styling */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 16px;
     }
-    .notice-box strong {
-      color: #451a03;
-    }
-    .notice-title {
-      font-weight: 800;
-      font-size: 14px;
-      margin-bottom: 6px;
-      display: block;
-      color: #854d0e;
+    .modal-content {
+      background: #ffffff;
+      padding: 24px;
+      border-radius: 16px;
+      max-width: 360px;
+      width: 100%;
       text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
     }
-    .footer-note {
-      margin-top: 16px;
+    .modal-content h3 {
+      font-size: 18px;
+      color: #1e293b;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .modal-content p {
+      font-size: 13px;
+      color: #475569;
+      line-height: 1.5;
+      margin-bottom: 12px;
+      text-align: left;
+    }
+    .modal-content ol {
+      text-align: left;
+      margin-left: 20px;
+      margin-bottom: 14px;
+      font-size: 13px;
+      color: #334155;
+      line-height: 1.6;
+    }
+    .modal-content .refund-note {
       font-size: 12px;
+      font-style: italic;
       color: #64748b;
+      margin-bottom: 20px;
+      text-align: center;
     }
   </style>
 </head>
@@ -150,23 +176,21 @@
   <div class="card">
     <!-- Top Right Logo & Attribution -->
     <div class="top-right-badge">
-      <!-- Replace 'logo.png' with your actual logo image URL -->
       <img src="logo.png" alt="Heong Arena Logo" />
       <span>Powered by Heong Arena tools</span>
     </div>
 
     <div class="brand">HeongArena</div>
-    <h1>Payment for CHRISTMAS EVE TOURNAMENT</h1>
-    <div class="amount">₹1000</div>
+    <h1>CHRISTMAS EVE TOURNAMENT</h1>
+    <div class="amount">₹100</div>
 
     <div class="qr-container">
-      <!-- Replace 'qr-code.png' with the actual path or URL of your uploaded QR image -->
       <img id="qrImage" src="qr-code.png" alt="HeongArena Payment QR Code" />
     </div>
 
     <div class="btn-group">
-      <!-- Proceed to Pay triggers the standard UPI deep link -->
-      <a href="upi://pay?pa=9362580723@nyes&pn=MANCHU%20MANCHU&am=1000&cu=INR&tn=Payment%20for%20CHRISTMAS%20EVE%20TOURNAMENT" class="btn btn-primary">
+      <!-- Proceed to Pay triggers the instruction modal first -->
+      <a href="#" onclick="openPaymentModal(event)" class="btn btn-primary">
         Proceed to Pay
       </a>
 
@@ -175,19 +199,41 @@
         Download QR
       </button>
     </div>
+  </div>
 
-    <!-- Verification Notice Box -->
-    <div class="notice-box">
-      <span class="notice-title">Payment Verification Required</span>
-      <p style="margin-bottom: 8px;"><strong>After completing your payment, please return to Heong Arena and submit your UTR/Transaction ID along with the payment app used to make the payment.</strong></p>
-      <p style="margin-bottom: 8px;"><strong>This information is required to verify and confirm your payment.</strong></p>
-      <p><strong>If you have completed the payment but did not submit these details, please contact Customer Care for assistance.</strong></p>
+  <!-- Instruction Modal Popup -->
+  <div id="paymentModal" class="modal-overlay">
+    <div class="modal-content">
+      <h3>*NOTICE*</h3>
+      <p>After payment please return to Heong Arena and submit payment details:</p>
+      <ol>
+        <li>your upi id</li>
+        <li>utr/transaction id</li>
+      </ol>
+      <p class="refund-note">*For refund please refer to refund policy*</p>
+      <div class="btn-group">
+        <button onclick="redirectToPayment()" class="btn btn-primary">OK</button>
+        <button onclick="closePaymentModal()" class="btn btn-secondary">Cancel</button>
+      </div>
     </div>
-
-    <p class="footer-note">Tapping "Proceed to Pay" opens GPay, PhonePe, Paytm, or any installed UPI app automatically with ₹1000 prefilled.</p>
   </div>
 
   <script>
+    const upiDeepLink = "upi://pay?pa=9362580723@nyes&pn=MANCHU%20MANCHU&am=100&cu=INR&tn=CHRISTMAS%20EVE%20TOURNAMENT";
+
+    function openPaymentModal(event) {
+      event.preventDefault();
+      document.getElementById('paymentModal').style.display = 'flex';
+    }
+
+    function closePaymentModal() {
+      document.getElementById('paymentModal').style.display = 'none';
+    }
+
+    function redirectToPayment() {
+      window.location.href = upiDeepLink;
+    }
+
     function downloadQR() {
       const qrImg = document.getElementById('qrImage');
       const link = document.createElement('a');
